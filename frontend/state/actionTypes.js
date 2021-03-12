@@ -1,0 +1,7 @@
+export const types={
+    API_ERROR:"API_ERROR",
+    AUTH_LOGIN:"AUTH_LOGIN",
+    AUTH_LOGOUT:"AUTH_LOGOUT",
+    AUTH_RESP:"AUTH_RESP",
+    AUTH_LOADING:"AUTH_LOADING",
+};
