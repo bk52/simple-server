@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
 
 const MenuItems = [
   { key: 1, icon: <HomeOutlinedIcon />, title: "Home", url: "/" },
-  { key: 2, icon: <RouterOutlinedIcon/>, title: "Devices", url: "/coming" },
+  { key: 2, icon: <RouterOutlinedIcon/>, title: "Devices", url: "/devices" },
   { key: 3, icon: <DnsOutlinedIcon/>, title: "Server", url: "/coming" },
   { key: 4, icon: <StorageOutlinedIcon/>, title: "Database", url: "/coming" },
   { key: 5, icon: <CardTravelOutlinedIcon/>, title: "Projects", url: "/coming" },

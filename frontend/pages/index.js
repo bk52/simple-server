@@ -9,7 +9,8 @@ import LeftMenu from "../component/LeftMenu";
 import isLogin from "../common/isLogin";
 
 import Home from "./Home";
-import Coming from "./Coming"
+import Coming from "./Coming";
+import Devices from "./Devices";
 
 const useStyles = makeStyles((theme) => ({
   router: {
@@ -58,6 +59,9 @@ export default function AppRouter() {
             <Route exact path="/coming">
               <Coming />
             </Route>
+            <PrivateRoute exact path="/devices">
+              <Devices />
+            </PrivateRoute>
             {/* <PrivateRoute path="/customers">
               <CustomerPage />
             </PrivateRoute>
