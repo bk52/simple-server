@@ -53,9 +53,8 @@ let _stats = {
 }
 
 export default function ServerApp() {
-  const authState = useSelector(state => state.auth);
   const classes = useStyles();
-  return isLogin() ? <div>
+  return  <div>
     <Grid container className={classes.root} direction="column" alignItems="center" justify="center" style={{ minHeight: "80vh" }}>
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
@@ -100,5 +99,5 @@ export default function ServerApp() {
         </Grid>
       </Grid>
     </Grid>
-  </div> : <Login />
+  </div>
 }

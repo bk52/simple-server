@@ -8,6 +8,7 @@ import AppBar from "../component/AppBar";
 import LeftMenu from "../component/LeftMenu";
 import isLogin from "../common/isLogin";
 
+import Login from "./Login";
 import Home from "./Home";
 import Coming from "./Coming";
 import Devices from "./Devices";
@@ -53,12 +54,15 @@ export default function AppRouter() {
         }
         <div className={leftMenuOpen ? classes.routerWithMenu : classes.router}>
           <Switch>
-            <Route exact path="/">
+          <Route exact path="/login">
+              <Login />
+            </Route>
+            <PrivateRoute exact path="/home">
               <Home />
-            </Route>
-            <Route exact path="/coming">
+            </PrivateRoute>
+            <PrivateRoute exact path="/coming">
               <Coming />
-            </Route>
+            </PrivateRoute>
             <PrivateRoute exact path="/devices">
               <Devices />
             </PrivateRoute>
