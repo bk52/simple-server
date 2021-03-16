@@ -12,9 +12,9 @@ import ListItemText from '@material-ui/core/ListItemText';
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
-import ImgDevices from '../assets/img/router.png';
-import ImgServer from '../assets/img/server.png';
-import ImgDatabase from '../assets/img/database.png';
+import RouterOutlinedIcon from '@material-ui/icons/RouterOutlined';
+import DnsOutlinedIcon from '@material-ui/icons/DnsOutlined';
+import StorageOutlinedIcon from '@material-ui/icons/StorageOutlined';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     height: "500px"
   },
   icons: {
-    width: "120px"
+    fontSize: "100px"
   },
   title: {
     paddingTop: "20px"
@@ -39,8 +39,8 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: "20px",
     width: '100%',
     maxWidth: 360,
-    // backgroundColor: theme.palette.background.paper,
   },
+  
 }));
 
 let _stats = {
@@ -59,14 +59,14 @@ export default function ServerApp() {
       <Grid container spacing={2}>
         <Grid item xs={12} md={4}>
           <Paper className={classes.paper}>
-            <img className={classes.icons} src={ImgDevices} />
+            <RouterOutlinedIcon className={classes.icons}/> 
             <Typography className={classes.title} variant="h4" >Active Devices</Typography>
             <Typography className={classes.info} variant="h1">{_stats.activeDeviceCount}</Typography>
           </Paper>
         </Grid>
         <Grid item xs={12} md={4}>
           <Paper className={classes.paper}>
-            <img className={classes.icons} src={ImgServer} />
+            <DnsOutlinedIcon className={classes.icons}/> 
             <Typography className={classes.title} variant="h4" >Server Status</Typography>
             <List className={classes.list}>
               <ListItem>
@@ -83,7 +83,7 @@ export default function ServerApp() {
         </Grid>
         <Grid item xs={12} md={4}>
           <Paper className={classes.paper}>
-            <img className={classes.icons} src={ImgDatabase} />
+            <StorageOutlinedIcon className={classes.icons}/> 
             <Typography className={classes.title} variant="h4" >Database Status</Typography>
             <List className={classes.list}>
               <ListItem>

@@ -6,7 +6,6 @@ import DeviceTable from "../component/DeviceTable";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/core/styles';
-// import CustomerDialog from "../components/CustomerDialog";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -78,11 +77,11 @@ export default function DevicesPage() {
                             textChanged={textChanged}
                             buttonClick={addNew}
                             textLabel={"Search Device"}
+                            showButton={false}
                             buttonIcon={<AddIcon />}
                             buttonTooltip={"New Device"}
                         />
                         <DeviceTable filterText={filterText} tableData={apiData} />
-                        {/* <CustomerDialog open={customerState.openModal} loading={customerState.customerFormLoading}></CustomerDialog> */}
                     </div>
                 )}
             </Paper>

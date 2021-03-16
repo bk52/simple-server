@@ -5,7 +5,7 @@ import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 
-export default function SearchHeader({textChanged, buttonClick, textLabel, buttonIcon, buttonTooltip}) {
+export default function SearchHeader({textChanged, buttonClick, textLabel, showButton, buttonIcon, buttonTooltip}) {
 
   const onClickButton=()=>{
     buttonClick();
@@ -26,11 +26,13 @@ export default function SearchHeader({textChanged, buttonClick, textLabel, butto
       </Grid>
       <Grid item xs={4}></Grid>
       <Grid item xs={2} style={{ textAlign: "right", margin: "auto" }}>
-        <Tooltip title={buttonTooltip}>
-          <Fab size="small" color="primary" aria-label="add" onClick={onClickButton}>
-              {buttonIcon}
-          </Fab>
-        </Tooltip>
+          {
+            showButton ? <Tooltip title={buttonTooltip}>
+            <Fab size="small" color="primary" aria-label="add" onClick={onClickButton}>
+                {buttonIcon}
+            </Fab>
+          </Tooltip> : null
+          }
       </Grid>
     </Grid>
   );

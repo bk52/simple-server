@@ -12,6 +12,7 @@ import Login from "./Login";
 import Home from "./Home";
 import Coming from "./Coming";
 import Devices from "./Devices";
+import Projects from "./Projects";
 
 const useStyles = makeStyles((theme) => ({
   router: {
@@ -54,7 +55,7 @@ export default function AppRouter() {
         }
         <div className={leftMenuOpen ? classes.routerWithMenu : classes.router}>
           <Switch>
-          <Route exact path="/login">
+          <Route exact path="/">
               <Login />
             </Route>
             <PrivateRoute exact path="/home">
@@ -65,6 +66,9 @@ export default function AppRouter() {
             </PrivateRoute>
             <PrivateRoute exact path="/devices">
               <Devices />
+            </PrivateRoute>
+            <PrivateRoute exact path="/projects">
+              <Projects />
             </PrivateRoute>
             {/* <PrivateRoute path="/customers">
               <CustomerPage />
