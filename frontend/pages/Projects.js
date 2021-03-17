@@ -3,6 +3,7 @@ import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/core/styles';
 
 import ProjectList from "../component/ProjectList";
+import ProjectDetails from "../component/ProjectDetails";
 import Modal from "../component/Modal";
 import Typography from '@material-ui/core/Typography';
 import Button from "@material-ui/core/Button";
@@ -64,6 +65,7 @@ function ModalNewProject({open,onCloseClick}){
     )
 }
 
+
 export default function ProjectsPage() {
     //const userState = useSelector(state => state.auth);
     const classes = useStyles();
@@ -72,8 +74,9 @@ export default function ProjectsPage() {
     return (
         <div>
             <Paper className={classes.paper}>
-                <ProjectList list={_projectList} onNewClick={(e) => { setshowNew(true) }} />
-                <ModalNewProject open={showNew} onCloseClick={(e) => { setshowNew(false) }}/>
+                {/* <ProjectList list={_projectList} onNewClick={(e) => { setshowNew(true) }} />
+                <ModalNewProject open={showNew} onCloseClick={(e) => { setshowNew(false) }}/> */}
+                <ProjectDetails/>
             </Paper>
 
         </div>

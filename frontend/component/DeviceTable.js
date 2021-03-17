@@ -2,7 +2,6 @@ import React, { useMemo, useRef, useEffect } from "react";
 import { useDispatch } from "react-redux"
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Table from "./SimpleTable";
-import Rating from "@material-ui/lab/Rating";
 import IconButton from "@material-ui/core/IconButton";
 import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 
@@ -11,15 +10,6 @@ import DevicesOtherOutlinedIcon from '@material-ui/icons/DevicesOtherOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
 
 import formatDate from "../common/formatDate";
-// import { useConfirm } from 'material-ui-confirm';
-// import {types} from "../redux/constants/action-types";
-
-// function InfoCell({ value }) {
-//   return <div>
-//     <div>{value.name ? value.name : ""}</div>
-//     <div style={{fontSize:"12px", color:"grey"}}>{value.deviceId ? value.deviceId : ""}</div>
-//   </div>
-// }
 
 function DateCell({value}){
   let dt=formatDate(value);
