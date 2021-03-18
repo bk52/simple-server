@@ -13,6 +13,7 @@ import Home from "./Home";
 import Coming from "./Coming";
 import Devices from "./Devices";
 import Projects from "./Projects";
+import Logs from "./Logs";
 
 const useStyles = makeStyles((theme) => ({
   router: {
@@ -69,6 +70,9 @@ export default function AppRouter() {
             </PrivateRoute>
             <PrivateRoute exact path="/projects">
               <Projects />
+            </PrivateRoute>
+            <PrivateRoute exact path="/logs">
+              <Logs />
             </PrivateRoute>
             {/* <PrivateRoute path="/customers">
               <CustomerPage />

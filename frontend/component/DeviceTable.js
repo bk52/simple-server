@@ -8,28 +8,12 @@ import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
 import RouterOutlinedIcon from '@material-ui/icons/RouterOutlined';
 import DevicesOtherOutlinedIcon from '@material-ui/icons/DevicesOtherOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-
+import {DateCell, DeviceType} from "./CustomCell";
 import formatDate from "../common/formatDate";
 
-function DateCell({value}){
-  let dt=formatDate(value);
-  return <div>
-    <div>{dt[0]}</div>
-    <div>{dt[1]}</div>
-  </div>
-}
-
-function DeviceType({value}){
-  let deviceIcon="";
-  if(value==1){deviceIcon=<RouterOutlinedIcon/>}
-  else if(value==2){deviceIcon=<DevicesOtherOutlinedIcon/>}
-  else {deviceIcon=<HelpOutlineOutlinedIcon/>}
-  return deviceIcon;
-}
 
 export default function DeviceTable({ filterText, tableData }) {
   const tableInstance = useRef(null);
-  // const confirm = useConfirm();
   const dispatch = useDispatch();
 
   const EditItem = (value) => {}

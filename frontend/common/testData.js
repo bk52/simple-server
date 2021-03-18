@@ -25,3 +25,36 @@ export const _devicesList=[{
   deviceType:1,
   lastActive:"2019-03-10T23:44:56.289Z"
 },]
+
+export const _logData=[{
+  projectName:"projectName",
+  logType:1,
+  message:"message",
+  module:"module",
+  createdDate:"2019-03-10T23:44:56.289Z"
+},
+{
+  projectName:"projectName",
+  logType:2,
+  message:"message",
+  module:"module",
+  createdDate:"2019-03-10T23:44:56.289Z"
+},
+{
+  projectName:"projectName",
+  logType:3,
+  message:"message",
+  module:"module",
+  createdDate:"2019-03-10T23:44:56.289Z"
+},
+{
+  projectName:"projectName",
+  logType:4,
+  message:"message",
+  module:"module",
+  createdDate:"2019-03-10T23:44:56.289Z"
+},
+
+
+
+]

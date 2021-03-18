@@ -5,65 +5,144 @@ import Paper from "@material-ui/core/Paper";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import TextField from "@material-ui/core/TextField";
-
-import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
-import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline'
 import Table from "./SimpleTable";
 import Tabs from "./Tabs";
-import formatDate from "../common/formatDate";
-import SearchHeader from "../component/SearchHeader";
 
+import SearchHeader from "./SearchHeader";
 import IconButton from "@material-ui/core/IconButton";
-import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import Button from "@material-ui/core/Button";
 import AddIcon from "@material-ui/icons/Add";
+import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import ArrowBackIosIcon from "@material-ui/icons/ArrowBackIos";
 import RouterOutlinedIcon from '@material-ui/icons/RouterOutlined';
 import DevicesOtherOutlinedIcon from '@material-ui/icons/DevicesOtherOutlined';
 import HelpOutlineOutlinedIcon from '@material-ui/icons/HelpOutlineOutlined';
-
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from "@material-ui/icons/Save";
+import CloseIcon from "@material-ui/icons/Close";
+import VisibilityOutlinedIcon from '@material-ui/icons/VisibilityOutlined';
+import VisibilityOffOutlinedIcon from '@material-ui/icons/VisibilityOffOutlined';
+import { useConfirm } from "material-ui-confirm";
+import Toast from "./Snackbar";
+import Modal from "./Modal";
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
+import InputLabel from '@material-ui/core/InputLabel';
+import {DateCell, DeviceType} from "./CustomCell";
 import { _devicesList } from "../common/testData";
 
-const useStyles = makeStyles({});
+const useStyles = makeStyles((theme) => ({
+    formElement: {
+        width: "100%",
+    },
+}));
 
-function DateCell({ value }) {
-    let dt = formatDate(value);
-    return <div>
-        <div>{dt[0]}</div>
-        <div>{dt[1]}</div>
-    </div>
-}
 
-function DeviceType({ value }) {
-    let deviceIcon = "";
-    if (value == 1) { deviceIcon = <RouterOutlinedIcon /> }
-    else if (value == 2) { deviceIcon = <DevicesOtherOutlinedIcon /> }
-    else { deviceIcon = <HelpOutlineOutlinedIcon /> }
-    return deviceIcon;
+const ProjectDeviceDetails = ({ open, onModalClose, onModalSave, _id }) => {
+    const newDeviceRef = useRef();
+    const classes = useStyles();
+    const [deviceType, setdeviceType] = React.useState(99);
+
+    const handleChange = (event) => {
+        setdeviceType(event.target.value);
+    };
+
+    return (
+        <Modal open={open}
+            title={<Typography>{_id && id !== "" ? "Edit Device" : "New Device"}</Typography>}
+            content={
+                <form ref={newDeviceRef} onSubmit={(e) => { }}>
+                    <Grid container spacing={1}>
+                        <Grid xs={12} md={6} item>
+                            <TextField id="deviceName" className={classes.formElement} label="Device Name" />
+                        </Grid>
+                        <Grid xs={12} md={6} item>
+                            <TextField id="deviceId" className={classes.formElement} label="Device ID" />
+                        </Grid>
+                        <Grid xs={12} md={6} item>
+                            <FormControl className={classes.formElement}>
+                                <InputLabel id="demo-simple-select-label">Device Type</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="deviceType"
+                                    value={deviceType}
+                                    onChange={handleChange}
+                                >
+                                    <MenuItem value={1}><RouterOutlinedIcon /></MenuItem>
+                                    <MenuItem value={2}><DevicesOtherOutlinedIcon /></MenuItem>
+                                    <MenuItem value={99}><HelpOutlineOutlinedIcon /></MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        {_id && id !== "" ?
+                            <Grid xs={12} md={6} item>
+                                <TextField id="createdDate" className={classes.formElement} label="Created Date" disabled/>
+                            </Grid>
+                            :
+                            null}
+                    </Grid>
+                </form>
+            }
+            action={
+                <div>
+                    <Button onClick={onModalSave} variant="contained" startIcon={<SaveIcon />} color="primary">Save</Button> {" "}
+                    <Button onClick={onModalClose} variant="contained" color="secondary" startIcon={<CloseIcon />}>Cancel</Button></div>
+            }
+        />
+    )
 }
 
 const ProjectDevices = ({ tableData }) => {
     const tableInstance = useRef(null);
-    // const confirm = useConfirm();
+    const confirm = useConfirm();
     const dispatch = useDispatch();
     const [filterText, setfilterText] = useState("");
+    const [newModal, setnewModal] = useState(false);
     const EditItem = (value) => { }
 
     useEffect(() => {
         if (tableInstance && tableInstance.current) {
             tableInstance.current.setGlobalFilter(filterText);
         }
+        Toast.success("OK");
     }, [filterText]);
+
+    const Edit = (_id) => { }
+    const Delete = (_id) => {
+        confirm({ title: "Delete Device", description: "Are you sure you want to delete this device?" })
+            .then(() => { })
+            .catch(() => { });
+    }
+    const Watch = (_id) => { }
 
     const textChanged = (e) => {
         const val = e.target.value || "";
         setfilterText(val);
     };
 
-    const addNew = () => { }
+    const addNew = () => { setnewModal(true) }
 
     const columns = useMemo(
         () => [
+            {
+                Header: '',
+                accessor: '_id',
+                Cell: (props) => {
+                    return (
+                        <div style={{ display: "inline-flex", width: "80px" }}>
+                            <IconButton size="small" aria-label="edit" onClick={(e) => { e.stopPropagation(); Edit(props.value) }}><EditIcon /></IconButton>
+                            <IconButton size="small" aria-label="delete" onClick={(e) => { e.stopPropagation(); Delete(props.value) }}><DeleteIcon /></IconButton>
+                            <IconButton size="small" aria-label="edit" onClick={(e) => { e.stopPropagation(); Watch(props.value) }}><VisibilityOffOutlinedIcon /></IconButton>
+                        </div>)
+                },
+                disableSortBy: true,
+                width: 30,
+                Aggregated: ({ value }) => <div></div>,
+            },
             {
                 Header: 'Device Name',
                 accessor: 'deviceName',
@@ -94,19 +173,6 @@ const ProjectDevices = ({ tableData }) => {
                 disableSortBy: true,
                 width: 400
             },
-            {
-                Header: '',
-                accessor: '_id',
-                Cell: (props) => {
-                    return (
-                        <div style={{ display: "inline-flex", width: "30px" }}>
-                            <IconButton size="small" aria-label="edit" onClick={(e) => { e.stopPropagation(); EditItem(props.value) }}><VisibilityOutlinedIcon /></IconButton>
-                        </div>)
-                },
-                disableSortBy: true,
-                width: 30,
-                Aggregated: ({ value }) => <div></div>,
-            },
         ],
         []
     )
@@ -122,11 +188,18 @@ const ProjectDevices = ({ tableData }) => {
                 buttonTooltip={"New Device"}
             />
             <Table columns={columns} data={tableData} ref={tableInstance} />
+            <ProjectDeviceDetails open={newModal} onModalClose={(e)=>{setnewModal(false)}} onModalSave={null} />
         </div>
     )
 }
 
 const ProjectInfo = () => {
+    const [securityType, setsecurityType] = React.useState(10);
+
+    const handleChange = (event) => {
+        setsecurityType(event.target.value);
+    };
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -137,6 +210,20 @@ const ProjectInfo = () => {
             </Grid>
             <Grid item xs={12}>
                 <TextField value={""} label="API Key" fullWidth />
+            </Grid>
+            <Grid item xs={12}>
+                <FormControl fullWidth>
+                    <InputLabel id="demo-simple-select-label">Security</InputLabel>
+                    <Select
+                        labelId="demo-simple-select-label"
+                        id="securityType"
+                        value={securityType}
+                        onChange={handleChange}
+                    >
+                        <MenuItem value={10}>API Key</MenuItem>
+                        <MenuItem value={20}>API Key + Device ID</MenuItem>
+                    </Select>
+                </FormControl>
             </Grid>
             <Grid item xs={12}>
                 <TextField disabled value={""} label="Created Date" fullWidth />
@@ -180,17 +267,13 @@ const tabList = [
     {
         index: 1,
         title: "Info",
-        icon: <HelpOutlineOutlinedIcon />,
-        component: <ProjectInfo/>
+        icon: <InfoOutlinedIcon />,
+        component: <ProjectInfo />
     },
 ];
 
 
 export default function ProjectDetails() {
-    const [value, setValue] = React.useState(0);
-    const handleChange = (event, newValue) => {
-        setValue(newValue);
-    };
     return (
         <div>
             <Header projectName={"Project Name"} />

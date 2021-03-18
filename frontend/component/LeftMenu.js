@@ -45,10 +45,10 @@ const useStyles = makeStyles((theme) => ({
 const MenuItems = [
   { key: 1, icon: <HomeOutlinedIcon />, title: "Home", url: "/home" },
   { key: 2, icon: <RouterOutlinedIcon/>, title: "Devices", url: "/devices" },
-  { key: 3, icon: <DnsOutlinedIcon/>, title: "Server", url: "/coming" },
-  { key: 4, icon: <StorageOutlinedIcon/>, title: "Database", url: "/coming" },
+  // { key: 3, icon: <DnsOutlinedIcon/>, title: "Server", url: "/coming" },
+  // { key: 4, icon: <StorageOutlinedIcon/>, title: "Database", url: "/coming" },
   { key: 5, icon: <CardTravelOutlinedIcon/>, title: "Projects", url: "/projects" },
-  { key: 6, icon: <ListOutlinedIcon/>, title: "Logs", url: "/coming" },
+  { key: 6, icon: <ListOutlinedIcon/>, title: "Logs", url: "/logs" },
   { key: 7, icon: <InfoOutlinedIcon/>, title: "About", url: "/coming" },
 ];
 
