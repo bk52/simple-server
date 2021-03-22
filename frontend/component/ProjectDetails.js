@@ -32,7 +32,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
-import {DateCell, DeviceType} from "./CustomCell";
+import { DateCell, DeviceType, DeviceActive } from "./CustomCell";
 import { _devicesList } from "../common/testData";
 
 const useStyles = makeStyles((theme) => ({
@@ -80,7 +80,7 @@ const ProjectDeviceDetails = ({ open, onModalClose, onModalSave, _id }) => {
                         </Grid>
                         {_id && id !== "" ?
                             <Grid xs={12} md={6} item>
-                                <TextField id="createdDate" className={classes.formElement} label="Created Date" disabled/>
+                                <TextField id="createdDate" className={classes.formElement} label="Created Date" disabled />
                             </Grid>
                             :
                             null}
@@ -152,7 +152,13 @@ const ProjectDevices = ({ tableData }) => {
                 accessor: 'deviceId',
             },
             {
-                Header: 'Ip',
+                Header: 'Active',
+                accessor: 'active',
+                width: 50,
+                Cell: DeviceActive,
+            },
+            {
+                Header: 'Last Ip',
                 accessor: 'ip',
             },
             {
@@ -188,47 +194,67 @@ const ProjectDevices = ({ tableData }) => {
                 buttonTooltip={"New Device"}
             />
             <Table columns={columns} data={tableData} ref={tableInstance} />
-            <ProjectDeviceDetails open={newModal} onModalClose={(e)=>{setnewModal(false)}} onModalSave={null} />
+            <ProjectDeviceDetails open={newModal} onModalClose={(e) => { setnewModal(false) }} onModalSave={null} />
         </div>
     )
 }
 
 const ProjectInfo = () => {
-    const [securityType, setsecurityType] = React.useState(10);
+    const settingsRef = useRef();
+    const [securityType, setsecurityType] = useState(10);
+    const [formVal, setformVal] = useState({});
 
-    const handleChange = (event) => {
-        setsecurityType(event.target.value);
-    };
+    function handleInputChange(e) {
+        const { name, value } = e.target;
+        if (name === "cityID") {
+            GetTowns(value);
+        }
+
+        setformVal((prevState) => ({
+            ...prevState,
+            [name]: value,
+        }));
+    }
+
+    function onSettingsSave(){
+        console.log(formVal)
+    }
 
     return (
-        <Grid container spacing={1}>
-            <Grid item xs={12}>
-                <TextField value={""} label="Title" fullWidth />
+        <form ref={settingsRef}>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <TextField id="title" name="title" value={formVal.title} label="Title" fullWidth onChange={handleInputChange} />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField id="description" name="description" value={formVal.description} label="Description" fullWidth onChange={handleInputChange} />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField id="apiKey" name="apiKey" value={formVal.apiKey} label="API Key" fullWidth onChange={handleInputChange} />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControl fullWidth>
+                        <InputLabel id="demo-simple-select-label">Security</InputLabel>
+                        <Select
+                            labelId="demo-simple-select-label"
+                            id="securityType"
+                            name="securityType"
+                            value={formVal.securityType}
+                            onChange={handleInputChange}
+                        >
+                            <MenuItem value={10}>API Key</MenuItem>
+                            <MenuItem value={20}>API Key + Device ID</MenuItem>
+                        </Select>
+                    </FormControl>
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField disabled value={""} label="Created Date" fullWidth />
+                </Grid>
+                <Grid item xs={12}>
+                    <Button onClick={onSettingsSave} variant="contained" startIcon={<SaveIcon />} color="primary" fullWidth>Save</Button>
+                </Grid>
             </Grid>
-            <Grid item xs={12}>
-                <TextField value={""} label="Description" fullWidth />
-            </Grid>
-            <Grid item xs={12}>
-                <TextField value={""} label="API Key" fullWidth />
-            </Grid>
-            <Grid item xs={12}>
-                <FormControl fullWidth>
-                    <InputLabel id="demo-simple-select-label">Security</InputLabel>
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="securityType"
-                        value={securityType}
-                        onChange={handleChange}
-                    >
-                        <MenuItem value={10}>API Key</MenuItem>
-                        <MenuItem value={20}>API Key + Device ID</MenuItem>
-                    </Select>
-                </FormControl>
-            </Grid>
-            <Grid item xs={12}>
-                <TextField disabled value={""} label="Created Date" fullWidth />
-            </Grid>
-        </Grid>
+        </form>
     )
 }
 

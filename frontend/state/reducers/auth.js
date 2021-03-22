@@ -15,29 +15,32 @@ export default function (state = initialState, action) {
             });
         }
         case types.AUTH_LOGOUT: {
-            localStorage.removeItem("token");
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("refreshToken");
             return Object.assign({}, state, {
                 isLogin: false
             });
         }
         case types.AUTH_RESP: {
-            if (action.payload && action.payload.token) {
-                localStorage.setItem("token", action.payload.token);
-                return Object.assign({}, state, {
-                    isLoading: false,
-                    isAuthError: false,
-                    authErrorMessage: "",
-                    isLogin: true
-                });
+            let { accessToken, refreshToken } = action.payload;
+            if (accessToken && accessToken != "") {     
+              localStorage.setItem("accessToken", accessToken);
+              localStorage.setItem("refreshToken", refreshToken);
+              return Object.assign({}, state, {
+                  isAuthError: false,
+                  authErrorMessage: "",
+                  isLoading:false,
+                  isLogin:true
+              });
             }
             else{
-                return Object.assign({}, state, {
-                    isLoading: false,
-                    isAuthError: true,
-                    authErrorMessage: "Invalid username or password",
-                    isLogin: false
-                });
-            }
+              let { message } = action.payload;
+              return Object.assign({}, state, {
+                isAuthError: true,
+                isLoading:false,
+                authErrorMessage: message,
+              });
+            } 
         }
         default:
             return state;

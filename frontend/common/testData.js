@@ -5,6 +5,7 @@ export const _devicesList=[{
     ip:"127.0.0.1",
     projectName:"Test Project",
     deviceType:1,
+    active:true,
     lastActive:"2019-03-10T23:44:56.289Z"
 },
 {

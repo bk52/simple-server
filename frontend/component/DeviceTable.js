@@ -58,19 +58,19 @@ export default function DeviceTable({ filterText, tableData }) {
         disableSortBy: true,
         Cell: DateCell,
       },
-      {
-        Header: '',
-        accessor: '_id',
-        Cell: (props) => {
-          return (
-            <div style={{ display: "inline-flex", width:"30px"}}>
-              <IconButton size="small" aria-label="edit" onClick={(e) => { e.stopPropagation(); EditItem(props.value) }}><VisibilityOutlinedIcon /></IconButton>
-            </div>)
-        },
-        disableSortBy: true,
-        width:30,
-        Aggregated: ({ value }) =><div></div>,
-      },
+      // {
+      //   Header: '',
+      //   accessor: '_id',
+      //   Cell: (props) => {
+      //     return (
+      //       <div style={{ display: "inline-flex", width:"30px"}}>
+      //         <IconButton size="small" aria-label="edit" onClick={(e) => { e.stopPropagation(); EditItem(props.value) }}><VisibilityOutlinedIcon /></IconButton>
+      //       </div>)
+      //   },
+      //   disableSortBy: true,
+      //   width:30,
+      //   Aggregated: ({ value }) =><div></div>,
+      // },
     ],
     []
   )
