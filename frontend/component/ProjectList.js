@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function ProjectList({ list, onNewClick }) {
+export default function ProjectList({ list, onNewClick, onDetailsClick }) {
     const classes = useStyles();
     const [filterText, setfilterText] = useState("");
     const textChanged = (e) => {
@@ -66,11 +66,11 @@ export default function ProjectList({ list, onNewClick }) {
             {
                 list.filter((item) => { return item.title.includes(filterText) })
                     .map((item) => {
-                        return <Grid key={item.id} item xs={12} md={4}>
+                        return <Grid key={item._id} item xs={12} md={4}>
                             <Card className={classes.root}>
                                 <CardContent>
                                     <div style={{ width: "100%", textAlign: "left", }}><Typography> {item.title}</Typography></div>
-                                    <div style={{ width: "100%", textAlign: "left", fontSize: "12px", paddingTop: "10px" }}><Typography color="textSecondary"> {item.description}</Typography></div>
+                                    <div style={{ width: "100%", textAlign: "left", fontSize: "12px", paddingTop: "10px" }}><Typography color="textSecondary"> {item.description ? item.description : " "}</Typography></div>
                                     <Grid container className={classes.root} spacing={2} style={{ paddingTop: "20px" }}>
                                         <Grid item xs={4}>{item.active ? <Tooltip title="Project is running"><PlayArrowIcon className={classes.icons} style={{ color: "28A745" }} /></Tooltip> : <Tooltip title="Project is stopped"><PauseIcon className={classes.icons} style={{ color: "DC3545" }} /></Tooltip>}</Grid>
                                         <Grid item xs={4}><Tooltip title="Device Count"><div><RouterOutlinedIcon className={classes.icons} /><span className={classes.iconText}>{item.deviceCount}</span></div></Tooltip></Grid>
@@ -78,7 +78,7 @@ export default function ProjectList({ list, onNewClick }) {
                                     </Grid>
                                 </CardContent>
                                 <CardActions>
-                                    <IconButton aria-label="delete" className={classes.margin} style={{ marginLeft: 'auto' }} size="small">
+                                    <IconButton aria-label="delete" className={classes.margin} style={{ marginLeft: 'auto' }} size="small" onClick={()=>{onDetailsClick(item._id)}}>
                                         <MoreHorizIcon fontSize="small" />
                                     </IconButton>
                                 </CardActions>

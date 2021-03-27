@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { makeStyles } from '@material-ui/core/styles';
 
@@ -10,15 +10,10 @@ import Button from "@material-ui/core/Button";
 import SaveIcon from "@material-ui/icons/Save";
 import CloseIcon from "@material-ui/icons/Close";
 import TextField from "@material-ui/core/TextField";
+import Toast from "../component/Snackbar"
 
-const _projectList = [
-    { id: 1, title: "Project-1", description: "Desp-1", active: true, deviceCount: 10, dataCount: 1500, createdDate: "2019-03-10T23:44:56.289Z" },
-    { id: 2, title: "Project-2", description: "Desp-2", active: true, deviceCount: 5, dataCount: 150000, createdDate: "2019-03-10T23:44:56.289Z" },
-    { id: 3, title: "Project-3", description: "Desp-3", active: false, deviceCount: 89, dataCount: 20489065, createdDate: "2019-03-10T23:44:56.289Z" },
-    { id: 4, title: "Project-4", description: "Desp-4", active: true, deviceCount: 156, dataCount: 120750750, createdDate: "2019-03-10T23:44:56.289Z" },
-    { id: 5, title: "Project-5", description: "Desp-5", active: false, deviceCount: 14, dataCount: 40450, createdDate: "2019-03-10T23:44:56.289Z" },
-    { id: 6, title: "Project-6", description: "Desp-6", active: true, deviceCount: 23, dataCount: 450450, createdDate: "2019-03-10T23:44:56.289Z" },
-]
+import {GetProject, SetProject} from "../state/actions/project";
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -34,9 +29,16 @@ const useStyles = makeStyles((theme) => ({
       },
 }));
 
-function ModalNewProject({open,onCloseClick}){
+function ModalNewProject({open,onCloseClick, onSaveClick}){
     const classes = useStyles();
     const newProjectRef = useRef();
+    const Save=()=>{
+        if(newProjectRef.current){
+            let title=newProjectRef.current["newproject-title"].value;
+            let description=newProjectRef.current["newproject-description"].value;
+            onSaveClick({title,description});
+        }
+    }
     return(
         <Modal open={open}
         title={<Typography>New Project</Typography>}
@@ -58,25 +60,37 @@ function ModalNewProject({open,onCloseClick}){
         }
         action={
             <div>
-                <Button onClick={null} variant="contained" startIcon={<SaveIcon />} color="primary">Save</Button> {" "}
+                <Button onClick={Save} variant="contained" startIcon={<SaveIcon />} color="primary">Save</Button> {" "}
                 <Button onClick={onCloseClick} variant="contained" color="secondary" startIcon={<CloseIcon />}>Cancel</Button></div>
         }
     />
     )
 }
 
-
 export default function ProjectsPage() {
-    //const userState = useSelector(state => state.auth);
     const classes = useStyles();
     const [showNew, setshowNew] = useState(false);
-
+    const [projectList, setProjectList]=useState([]);
+    const [details, setDetails]=useState({show:false,_id:""})
+    function GetData(){
+        GetProject().then((data)=>{if(data.result)setProjectList(data.result)}).catch((error)=>{Toast.error(error)})
+    }
+    useEffect(() => {GetData()}, []);
+    const onDetailsClick=(_id)=>{setDetails({show:true,_id:_id})}
+    const onBackClick=()=>{setDetails({show:false,_id:""})}
+    const onNewProjectClick=(val)=>{
+        SetProject(val)
+        .then((result)=>{Toast.success("Project created"); GetData(); setshowNew(false)})
+        .catch((error)=>{Toast.error("API Error")})
+    }
     return (
         <div>
             <Paper className={classes.paper}>
-                {/* <ProjectList list={_projectList} onNewClick={(e) => { setshowNew(true) }} />
-                <ModalNewProject open={showNew} onCloseClick={(e) => { setshowNew(false) }}/> */}
-                <ProjectDetails/>
+                 {details.show 
+                 ? <ProjectDetails projectId={details._id} onBackClick={onBackClick}/> 
+                 : <div><ProjectList list={projectList} onDetailsClick={onDetailsClick} onNewClick={(e) => { setshowNew(true) }} />
+                 <ModalNewProject open={showNew} onSaveClick={onNewProjectClick} onCloseClick={(e) => { setshowNew(false) }}/></div>
+                 }
             </Paper>
 
         </div>

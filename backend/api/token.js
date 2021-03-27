@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const authCache=require("../cache/auth");
+//const authCache=require("../cache/auth");
 
 router.route('/')
 .all(function(req,res,next){
@@ -18,8 +18,8 @@ router.route('/')
             algorithm: "HS256",
             expiresIn: parseInt(process.env.ACCESS_TOKEN_LIFE)
         });
-        let userId=payload.id.toString();
-        authCache.setToken(userId,newAccessToken);
+        //let userId=payload.id.toString();
+        //authCache.setToken(userId,newAccessToken);
         res.status(200).json({token:newAccessToken});
     }
     else{
@@ -28,7 +28,7 @@ router.route('/')
    }
    catch(e){
     global.log(e,__filename,'e',"post");
-    res.status(401).json({"message":"Invalid token"});
+    res.status(500).json({"message":"Internal Server Error"});
    }
 })
 

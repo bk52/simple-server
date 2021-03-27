@@ -34,6 +34,9 @@ import Select from '@material-ui/core/Select';
 import InputLabel from '@material-ui/core/InputLabel';
 import { DateCell, DeviceType, DeviceActive } from "./CustomCell";
 import { _devicesList } from "../common/testData";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import {GetProject} from "../state/actions/project";
 
 const useStyles = makeStyles((theme) => ({
     formElement: {
@@ -108,7 +111,6 @@ const ProjectDevices = ({ tableData }) => {
         if (tableInstance && tableInstance.current) {
             tableInstance.current.setGlobalFilter(filterText);
         }
-        Toast.success("OK");
     }, [filterText]);
 
     const Edit = (_id) => { }
@@ -201,22 +203,20 @@ const ProjectDevices = ({ tableData }) => {
 
 const ProjectInfo = () => {
     const settingsRef = useRef();
-    const [securityType, setsecurityType] = useState(10);
-    const [formVal, setformVal] = useState({});
+    const [formVal, setformVal] = useState({securityType:10});
 
     function handleInputChange(e) {
-        const { name, value } = e.target;
-        if (name === "cityID") {
-            GetTowns(value);
-        }
-
+        const { name} = e.target;
+        let value="";
+        if (name === "active") {value=e.target.checked;}
+        else{value=e.target.value}
         setformVal((prevState) => ({
             ...prevState,
             [name]: value,
         }));
     }
 
-    function onSettingsSave(){
+    function onSettingsSave() {
         console.log(formVal)
     }
 
@@ -228,6 +228,21 @@ const ProjectInfo = () => {
                 </Grid>
                 <Grid item xs={12}>
                     <TextField id="description" name="description" value={formVal.description} label="Description" fullWidth onChange={handleInputChange} />
+                </Grid>
+                <Grid item xs={12}>
+                    <FormControlLabel
+                        control={
+                            <Switch
+                                checked={formVal.active}
+                                unc
+                                onChange={handleInputChange}
+                                name="active"
+                                id="active"
+                                color="primary"
+                            />
+                        }
+                        label="Active"
+                    />
                 </Grid>
                 <Grid item xs={12}>
                     <TextField id="apiKey" name="apiKey" value={formVal.apiKey} label="API Key" fullWidth onChange={handleInputChange} />
@@ -258,7 +273,7 @@ const ProjectInfo = () => {
     )
 }
 
-const Header = ({ projectName }) => {
+const Header = ({ projectName, onBackClick }) => {
     return (<Grid container spacing={1}>
         <Grid style={{ padding: "0px", paddingBottom: "4px" }} item xs={12}>
             <Paper style={{ padding: "8px" }}>
@@ -268,7 +283,7 @@ const Header = ({ projectName }) => {
                             size="small"
                             color="primary"
                             aria-label="add"
-                            onClick={null}
+                            onClick={onBackClick}
                             style={{ paddingLeft: "8px" }}
                         >
                             <ArrowBackIosIcon />
@@ -299,10 +314,17 @@ const tabList = [
 ];
 
 
-export default function ProjectDetails() {
+export default function ProjectDetails({projectId, onBackClick}) {
+    const [details,setDetails]=useState({});
+    useEffect(() => {
+        GetProject(projectId)
+        .then((data)=>{if(data.result && data.result.length>0)setDetails(data.result[0])})
+        .catch((error)=>{Toast.error(error)})
+    }, []);
+
     return (
         <div>
-            <Header projectName={"Project Name"} />
+            <Header projectName={details.title} onBackClick={onBackClick}/>
             <Tabs tabList={tabList}></Tabs>
         </div>
     );

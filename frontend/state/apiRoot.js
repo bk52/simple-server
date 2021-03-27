@@ -33,6 +33,8 @@ api.interceptors.response.use((response) => {
 });
 
 function ErrorHandler(error) {
+  console.error("API ErrorHandler");
+  console.error(error);
   if (error.response && error.response.data) throw error.response.data;
   else throw error;
 }

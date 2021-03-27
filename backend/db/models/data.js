@@ -5,7 +5,8 @@ const dataSchema = new Schema(
     {
       ip:String,
       appKey:String,
-      payload:mongoose.Mixed
+      payload:String
+      //payload:mongoose.Mixed
     },
     {
       timestamps: { createdAt: "createdDate", updatedAt: "updatedDate" },
